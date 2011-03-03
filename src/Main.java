@@ -1,6 +1,6 @@
-import signals.Signal;
 import signals.SignalListener;
 import test.MyTestVO;
+import test.SignalBus;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,16 +12,16 @@ import test.MyTestVO;
 public class Main
 {
 
-	public final Signal<MyTestVO> valueObjSignal = new Signal<MyTestVO>();
-	public final Signal<String> stringSignal = new Signal<String>();
-
-
 	public Main()
 	{
+		// getting signal bus
+		SignalBus signalBus = SignalBus.getInstance();
+
+
 		//----------------------------------
 		//  creating listeners
 		//----------------------------------
-		valueObjSignal.add(new SignalListener<MyTestVO>(){
+		signalBus.VALUEOBJ_SIGNAL.add(new SignalListener<MyTestVO>(){
 			public void execute(MyTestVO valueObject)
 			{
 				System.out.println("Hello from MyTestVO Listener\n" +
@@ -32,7 +32,7 @@ public class Main
 			}
 		});
 
-		stringSignal.add(new SignalListener<String>()
+		signalBus.SOME_STRING_SIGNAL.add(new SignalListener<String>()
 		{
 			public void execute(String valueObject)
 			{
@@ -40,7 +40,7 @@ public class Main
 			}
 		});
 
-		stringSignal.add(new SignalListener<String>()
+		signalBus.SOME_STRING_SIGNAL.add(new SignalListener<String>()
 		{
 			public void execute(String valueObject)
 			{
@@ -57,8 +57,8 @@ public class Main
 		testVO.name = "Holzkissen";
 		testVO.likes = new String[]{"lila", "sex", "nunu"};
 
-		valueObjSignal.dispatch(testVO);
-		stringSignal.dispatch("TESSST");
+		signalBus.VALUEOBJ_SIGNAL.dispatch(testVO);
+		signalBus.SOME_STRING_SIGNAL.dispatch("TESSST");
 	}
 
 
