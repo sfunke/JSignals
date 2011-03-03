@@ -6,7 +6,7 @@
  */
 package signals;
 
-public interface SignalListener
+public interface SignalListener<T>
 {
-	public void execute(Object ...params);
+	public void execute(T valueObject);
 }

@@ -6,30 +6,36 @@
  */
 package signals;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Signal
+public class Signal<T>
 {
 	private Class[] mValueClasses;
 	private Object[] mValueObjects;
 
-	private List<SignalListener> listeners;
+	private List<SignalListener<T>> listeners;
+	private T mValueObject;
 
-	public Signal(Class... valueClasses)
+	public Signal()
 	{
-		mValueClasses = valueClasses;
-		listeners = new LinkedList<SignalListener>();
+		listeners = new LinkedList<SignalListener<T>>();
 	}
 
-	public void add(SignalListener listener)
+	public void add(SignalListener<T> listener)
 	{
 		createListenerRelationship(listener);
 	}
 
-	public void dispatch(Object... valueObjects)
+	public void dispatch(T valueObject)
 	{
-		mValueObjects = valueObjects;
+		mValueObject = valueObject;
+		Iterator<SignalListener<T>> iterator = listeners.iterator();
+		while (iterator.hasNext())
+		{
+			iterator.next().execute(valueObject);
+		}
 	}
 
 
@@ -39,7 +45,7 @@ public class Signal
 	//
 	//--------------------------------------------------------------------------
 
-	private void createListenerRelationship(SignalListener listener)
+	private void createListenerRelationship(SignalListener<T> listener)
 	{
 		// If there are no previous listeners, add the first one as quickly as possible.
 		if (listeners.size() == 0)
@@ -54,4 +60,5 @@ public class Signal
 
 		listeners.add(listener);
 	}
+
 }
