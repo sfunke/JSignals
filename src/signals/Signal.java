@@ -12,11 +12,10 @@ import java.util.List;
 
 public class Signal<T>
 {
-	private Class[] mValueClasses;
-	private Object[] mValueObjects;
+//	private Class[] mValueClasses;
+//	private Object[] mValueObjects;
 
 	private List<SignalListener<T>> listeners;
-	private T mValueObject;
 
 	public Signal()
 	{
@@ -30,7 +29,6 @@ public class Signal<T>
 
 	public void dispatch(T valueObject)
 	{
-		mValueObject = valueObject;
 		Iterator<SignalListener<T>> iterator = listeners.iterator();
 		while (iterator.hasNext())
 		{
